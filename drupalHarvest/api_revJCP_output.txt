@@ -1,0 +1,45 @@
+
+command line output from:  py api_revJCP.py
+
+loginStatusCode: 200
+loginText:
+<?xml version="1.0" encoding="utf-8"?>
+<result><sessid>pjatv1cqdkeoPDvMwqxs1MRacLr4bjXa3Mok_qK0jAY</sessid><session_nam
+e>SESS027c23b9103114bcd283243bd65ba4eb</session_name><token>w00U27SQRcQKla9
+9sitZySWrGxcxJyVXXmev0QFF0LE</token><user><uid>5342</uid><name>api.persona</nam
+e><mail>api.persona@bluedotlab.org</mail><theme></theme><signature></signature><signat
+ure_format>filtered_html</signature_format><created>1525308621</created><access>152806
+0364</access><login>1528060493</login><status>1</status><timezone/><language></langua
+ge><picture/><data><ckeditor_default>t</ckeditor_default><ckeditor_show_toggle>t</ckeditor_
+show_toggle><ckeditor_width>100%</ckeditor_width><ckeditor_lang>en</ckeditor_lang><cked
+itor_auto_lang>t</ckeditor_auto_lang><contact>1</contact><googleanalytics><custom></custo
+m></googleanalytics></data><uuid>ea763f8c-d673-47e5-9e39-5d8b6567c040</uuid><roles 
+is_array="true"><item>authenticated user</item><item>DMT Editor</item><item>DMT 
+Reviewer</item><item>DMT Submitter</item><item>DMT API 
+User</item></roles><rdf_mapping><rdftype 
+is_array="true"><item>sioc:UserAccount</item></rdftype><name><predicates 
+is_array="true"><item>foaf:name</item></predicates></name><homepage><predicates 
+is_array="true"><item>foaf:page</item></predicates><type>rel</type></homepage></rdf_mapp
+ing><domain_user is_array="true"><item>5</item></domain_user></user></result>
+
+loginCookies:
+<RequestsCookieJar[<Cookie 
+SESS027c23b9103114bcd283243bd65ba4eb=pjatv1cqdkeoPDvMwqxs1MRacLr4bjXa3Mok_q
+K0jAY for .test.dmtclearinghouse.esipfed.bluedotapps.org/>]>
+
+tokenStatusCode" 200
+tokenText" {"token":"w00U27SQRcQKla99sitZySWrGxcxJyVXXmev0QFF0LE"}
+cleanedUpToken: w00U27SQRcQKla99sitZySWrGxcxJyVXXmev0QFF0LE
+
+getQueryStatusCode: 200
+
+getQueryText:
+{"count":22,"result":{"9403":{"id":9403,"score":1,"fields":{}},"9404":{"id":9404,"score":1,"fields":{}},
+"9405":{"id":9405,"score":1,"fields":{}},"9410":{"id":9410,"score":1,"fields":{}},"9411":{"id":9411,"sc
+ore":1,"fields":{}},"9412":{"id":9412,"score":1,"fields":{}},"9413":{"id":9413,"score":1,"fields":{}},"94
+14":{"id":9414,"score":1,"fields":{}},"9415":{"id":9415,"score":1,"fields":{}},"9442":{"id":9442,"score
+":1,"fields":{}},"9443":{"id":9443,"score":1,"fields":{}},"9444":{"id":9444,"score":1,"fields":{}},"9445"
+:{"id":9445,"score":1,"fields":{}},"9446":{"id":9446,"score":1,"fields":{}},"9447":{"id":9447,"score":1,
+"fields":{}},"9451":{"id":9451,"score":1,"fields":{}},"9503":{"id":9503,"score":1,"fields":{}},"9567":{"i
+d":9567,"score":1,"fields":{}},"9568":{"id":9568,"score":1,"fields":{}},"9569":{"id":9569,"score":1,"fi
+elds":{}},"9570":{"id":9570,"score":1,"fields":{}},"9582":{"id":9582,"score":1,"fields":{}}}}

@@ -1,0 +1,736 @@
+firefox 
+[1] ... login ...Response 401 Unauthorized
+		Sun jun 3  (logged in successfully Sat jun 2, aka Response 200 OK )
+POST
+URL:  	test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/user/login
+Header:	Content-Type = "application/json"
+Body:		{ "username":"api.persona", "password":"api.persona" }
+
+Cache-Control: no-cache, must-revalidate
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: text/xml;charset=UTF-8
+Date: Sun, 03 Jun 2018 17:18:19 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ jFIQh887hQwrMRSSY7Ss
+Surrogate-Key-Raw:
+Vary: Accept
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx37bdde9b
+X-Styx-Req-Id: styx-f1a8d8f1ea15df66fc5d8a3a7153b59a
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 79
+xkey: 8dYIrC9oMZ/1cOnse9yJ jFIQh887hQwrMRSSY7Ss
+X-Varnish: 428393353
+Age: 0
+Via: 1.1 varnish-v4
+Connection: keep-alive
+
+[2],,, token ...Response 200 OK 
+POST
+URL:  test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/user/token.json
+Header:	Content-Type = "application/json"
+Body:		{ "username":"api.persona", "password":"api.persona" }
+
+Cache-Control: no-cache, must-revalidate
+Content-Encoding: gzip
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: application/json
+Date: Sun, 03 Jun 2018 17:20:05 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ JYHacoGOrfsVldONuxDB
+Surrogate-Key-Raw:
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx112b8753
+X-Styx-Req-Id: styx-2d10c1945198c030eb69f738b567d6e1
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 75
+xkey: 8dYIrC9oMZ/1cOnse9yJ JYHacoGOrfsVldONuxDB
+X-Varnish: 358563839
+Age: 0
+Via: 1.1 varnish-v4
+Accept-Ranges: bytes
+Connection: keep-alive
+
+{"token": "RvcQmGGF2kHxLtBU1TZekGaaRGlKSqn0h0wz35ow6n8"}
+sent twice ... same token
+{"token": "RvcQmGGF2kHxLtBU1TZekGaaRGlKSqn0h0wz35ow6n8"}
+
+[3]... make a request ...Response 200 OK
+
+GET
+URL: test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/search_api/search_index_dmt_clearinghouse.json
+Header: X_CSRF_TOKEN="[authentication-token]"
+   aka:	X_CSRF_TOKEN  RvcQmGGF2kHxLtBU1TZekGaaRGlKSqn0h0wz35ow6n8
+Body:		nothing
+
+Cache-Control: no-cache, must-revalidate
+Content-Encoding: gzip
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: application/json
+Date: Sun, 03 Jun 2018 17:25:30 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+Surrogate-Key-Raw:
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx112b8753
+X-Styx-Req-Id: styx-3185c80c0166bebe45e0317197b7fa70
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 202
+xkey: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+X-Varnish: 356830726
+Age: 0
+Via: 1.1 varnish-v4
+Accept-Ranges: bytes
+Connection: keep-alive 
+
+{
+    "count": 22,
+    "result": {
+        "9403": {
+            "id": 9403,
+            "score": 1,
+            "fields": {}
+        },
+        "9404": {
+            "id": 9404,
+            "score": 1,
+            "fields": {}
+        },
+        "9405": {
+            "id": 9405,
+            "score": 1,
+            "fields": {}
+        },
+        "9410": {
+            "id": 9410,
+            "score": 1,
+            "fields": {}
+        },
+        "9411": {
+            "id": 9411,
+            "score": 1,
+            "fields": {}
+        },
+        "9412": {
+            "id": 9412,
+            "score": 1,
+            "fields": {}
+        },
+        "9413": {
+            "id": 9413,
+            "score": 1,
+            "fields": {}
+        },
+        "9414": {
+            "id": 9414,
+            "score": 1,
+            "fields": {}
+        },
+        "9415": {
+            "id": 9415,
+            "score": 1,
+            "fields": {}
+        },
+        "9442": {
+            "id": 9442,
+            "score": 1,
+            "fields": {}
+        },
+        "9443": {
+            "id": 9443,
+            "score": 1,
+            "fields": {}
+        },
+        "9444": {
+            "id": 9444,
+            "score": 1,
+            "fields": {}
+        },
+        "9445": {
+            "id": 9445,
+            "score": 1,
+            "fields": {}
+        },
+        "9446": {
+            "id": 9446,
+            "score": 1,
+            "fields": {}
+        },
+        "9447": {
+            "id": 9447,
+            "score": 1,
+            "fields": {}
+        },
+        "9451": {
+            "id": 9451,
+            "score": 1,
+            "fields": {}
+        },
+        "9503": {
+            "id": 9503,
+            "score": 1,
+            "fields": {}
+        },
+        "9567": {
+            "id": 9567,
+            "score": 1,
+            "fields": {}
+        },
+        "9568": {
+            "id": 9568,
+            "score": 1,
+            "fields": {}
+        },
+        "9569": {
+            "id": 9569,
+            "score": 1,
+            "fields": {}
+        },
+        "9570": {
+            "id": 9570,
+            "score": 1,
+            "fields": {}
+        },
+        "9582": {
+            "id": 9582,
+            "score": 1,
+            "fields": {}
+        }
+    }
+}
+
+
+[4]... URL Query Parms
+
+*** search terms...Response 200 OK
+URL: test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/search_api/search_index_dmt_clearinghouse.json?keys="metadata quality"
+
+Cache-Control: no-cache, must-revalidate
+Content-Encoding: gzip
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: application/json
+Date: Sun, 03 Jun 2018 17:27:20 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+Surrogate-Key-Raw:
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx112b8753
+X-Styx-Req-Id: styx-ca6052d099e10dd1460cd9124f1e058a
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 44
+xkey: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+X-Varnish: 359341231
+Age: 0
+Via: 1.1 varnish-v4
+Accept-Ranges: bytes
+Connection: keep-alive 
+
+{
+    "count": 0,
+    "result": false
+}
+
+*** fields ...Response 200 OK
+URL:  test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/search_api/search_index_dmt_clearinghouse.json?keys="metadata quality"&fields[]=field_lr_url&fields[]=title
+
+
+Cache-Control: no-cache, must-revalidate
+Content-Encoding: gzip
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: application/json
+Date: Sun, 03 Jun 2018 17:31:59 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+Surrogate-Key-Raw:
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx00443c21
+X-Styx-Req-Id: styx-075662bbb80591f0d86f0a2ec3e4eed6
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 44
+xkey: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+X-Varnish: 1032655426
+Age: 0
+Via: 1.1 varnish-v4
+Accept-Ranges: bytes
+Connection: keep-alive
+
+{
+    "count": 0,
+    "result": false
+}
+
+*** filters ...Response 500 Internal Server Error
+URL:  test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/search_api/search_index_dmt_clearinghouse.json?filter[~and][field-lr-keywords]=Metadata
+
+ Server: nginx
+X-Varnish: 1030486378
+Cache-Control: no-cache, must-revalidate
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+Content-Type: application/json
+Surrogate-Key-Raw:
+X-Pantheon-Environment: test
+X-Pantheon-Styx-Hostname: styx00443c21
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Date: Sun, 03 Jun 2018 17:34:36 GMT
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+X-Pantheon-Phpreq: yes
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+X-Styx-Req-Id: styx-8a31dba5a39f6561c3b6217ecf3f8eee
+X-Content-Type-Options: nosniff
+Via: 1.1 varnish-v4
+Connection: close
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Age: 0
+Content-Length: 0
+xkey: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F 
+
+--nothing returned--
+
+*** limit ...Response 200 OK
+URL: test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/search_api/search_index_dmt_clearinghouse.json?limit=5
+
+ Cache-Control: no-cache, must-revalidate
+Content-Encoding: gzip
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: application/json
+Date: Sun, 03 Jun 2018 17:36:17 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+Surrogate-Key-Raw:
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx37bdde9b
+X-Styx-Req-Id: styx-6fb6ecf021e18f75a8def5bff6a138f0
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 108
+xkey: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+X-Varnish: 424673149
+Age: 0
+Via: 1.1 varnish-v4
+Accept-Ranges: bytes
+Connection: keep-alive 
+
+{
+    "count": 22,
+    "result": {
+        "9403": {
+            "id": 9403,
+            "score": 1,
+            "fields": {}
+        },
+        "9404": {
+            "id": 9404,
+            "score": 1,
+            "fields": {}
+        },
+        "9405": {
+            "id": 9405,
+            "score": 1,
+            "fields": {}
+        },
+        "9410": {
+            "id": 9410,
+            "score": 1,
+            "fields": {}
+        },
+        "9411": {
+            "id": 9411,
+            "score": 1,
+            "fields": {}
+        }
+    }
+}
+
+*** offset ...
+URL:  test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/search_api/search_index_dmt_clearinghouse.json?limit=5&offset=5
+
+ Cache-Control: no-cache, must-revalidate
+Content-Encoding: gzip
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: application/json
+Date: Sun, 03 Jun 2018 17:38:09 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+Surrogate-Key-Raw:
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx37bdde9b
+X-Styx-Req-Id: styx-2c4308b0461a80f39d420a844011ba1c
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 105
+xkey: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+X-Varnish: 428975549
+Age: 0
+Via: 1.1 varnish-v4
+Accept-Ranges: bytes
+Connection: keep-alive 
+
+{
+    "count": 22,
+    "result": {
+        "9412": {
+            "id": 9412,
+            "score": 1,
+            "fields": {}
+        },
+        "9413": {
+            "id": 9413,
+            "score": 1,
+            "fields": {}
+        },
+        "9414": {
+            "id": 9414,
+            "score": 1,
+            "fields": {}
+        },
+        "9415": {
+            "id": 9415,
+            "score": 1,
+            "fields": {}
+        },
+        "9442": {
+            "id": 9442,
+            "score": 1,
+            "fields": {}
+        }
+    }
+}
+
+*** sorts ... Response 200 OK
+URL:  test.dmtclearinghouse.esipfed.bluedotapps.org/api/dmt/search/search_api/search_index_dmt_clearinghouse.json?sort[field_lr_date_created]=DESC&fields[]=field_lr_date_created
+
+Cache-Control: no-cache, must-revalidate
+Content-Encoding: gzip
+Content-Security-Policy: frame-ancestors 'self' wiki.esipfed.org
+Content-Type: application/json
+Date: Sun, 03 Jun 2018 17:40:02 GMT
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Server: nginx
+Surrogate-Key: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+Surrogate-Key-Raw:
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Pantheon-Environment: test
+X-Pantheon-Phpreq: yes
+X-Pantheon-Site: ecb7f47e-3cde-4c0b-bd6d-43c6edda0cb5
+X-Pantheon-Styx-Hostname: styx112b8753
+X-Styx-Req-Id: styx-d72c9bf4fc8cbd52894052c936f84a6c
+X-Webkit-Csp: frame-ancestors 'self' wiki.esipfed.org
+Content-Length: 363
+xkey: 8dYIrC9oMZ/1cOnse9yJ vjFpxGfvji4/qgcA2Z2F
+X-Varnish: 359280202
+Age: 0
+Via: 1.1 varnish-v4
+Accept-Ranges: bytes
+Connection: keep-alive 
+
+{
+    "count": 22,
+    "result": {
+        "9403": {
+            "id": 9403,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9404": {
+            "id": 9404,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9405": {
+            "id": 9405,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9410": {
+            "id": 9410,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2016-07-03 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9411": {
+            "id": 9411,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9412": {
+            "id": 9412,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9413": {
+            "id": 9413,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9414": {
+            "id": 9414,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9415": {
+            "id": 9415,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2016-04-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9442": {
+            "id": 9442,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9443": {
+            "id": 9443,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9444": {
+            "id": 9444,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9445": {
+            "id": 9445,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9446": {
+            "id": 9446,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9447": {
+            "id": 9447,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2012-05-01 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9451": {
+            "id": 9451,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2016-09-24 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9503": {
+            "id": 9503,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": {
+                    "und": [
+                        {
+                            "value": "2016-10-21 00:00:00",
+                            "timezone": "America/Chicago",
+                            "timezone_db": "America/Chicago",
+                            "date_type": "datetime"
+                        }
+                    ]
+                }
+            }
+        },
+        "9567": {
+            "id": 9567,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9568": {
+            "id": 9568,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9569": {
+            "id": 9569,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9570": {
+            "id": 9570,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        },
+        "9582": {
+            "id": 9582,
+            "score": 1,
+            "fields": {
+                "field_lr_date_created": []
+            }
+        }
+    }
+}
+
+
