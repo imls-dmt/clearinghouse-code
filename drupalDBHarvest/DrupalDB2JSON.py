@@ -4,12 +4,17 @@ import json
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
-import imlsconfig
+import config
+import datetime
+
+
+usernames=[]
 print("Building DB classes...")
 Base = automap_base()
-engine = create_engine(imlsconfig.connectstring)
+engine = create_engine(config.connectstring)
 Base.prepare(engine, reflect=True)
 Nodes = Base.classes.node
+Users =Base.classes.users
 LRUrls =Base.classes.field_data_field_lr_url
 Payment=Base.classes.field_data_field_lr_payment_required
 Submitter=Base.classes.field_data_field_dmt_submitter_name
@@ -42,11 +47,23 @@ DatePublished =Base.classes.field_data_field_lr_date_published
 AccessFeatures =Base.classes.field_data_field_lr_access_features
 LanguagePrimary = Base.classes.field_data_field_lr_language_primary
 LanguagesSecondary=Base.classes.field_data_field_lr_languages_secondary
+EdFramework=Base.classes.field_data_field_lr_ed_framework;
+EdFrameworkD1=Base.classes.field_data_field_lr_ed_framework_node_data1
+EdFrameworkFair=Base.classes.field_data_field_framework_node_fair
+EdAudience=Base.classes.field_data_field_lr_ed_audience
+Purpose=Base.classes.field_data_field_lr_ed_purpose
+CompletionTime=Base.classes.field_data_field_lr_completion_time
+MediaType=Base.classes.field_data_field_lr_media_type
+LearningResourceType=Base.classes.field_data_field_lr_type
 print("Creating db session...")
 session = Session(engine)
 
-
-
+def get_controlled_vocabulary(vid):
+    returnarray=[]
+    items=session.query(TaxonomyTerms.name).filter(TaxonomyTerms.vid==vid).group_by(TaxonomyTerms.name).all()
+    for item in items:
+        returnarray.append(item[0])
+    return returnarray
 def get_names(id):
     return_object={"lastname": "","firstname": ""}
     firstnamez=session.query(PeopleFirst.field_lr_ppl_name_first_value).filter(PeopleFirst.entity_id==id).first()
@@ -114,9 +131,52 @@ def get_values_from_target(field,table):
             returnarray.append(get_taxonomy_value(id[0]))
     return returnarray
 
+def get_author(uid):
+    name=session.query(Users.name).filter(Users.uid==uid).first()
+    if name is not None:
+        if name[0] not in usernames:
+            usernames.append(name[0])
+        return name[0]
+    else:
+        return ""
+
+
+
+def object_as_dict(obj):
+    return {c.key: getattr(obj, c.key)
+            for c in inspect(obj).mapper.column_attrs}
+
+
+
+DMTAccessibilityFeatures=get_controlled_vocabulary(28)
+DMTCompletionTimeframes=get_controlled_vocabulary(29)
+DMTContributorTypes=get_controlled_vocabulary(30)
+DMTEducationalAudiences=get_controlled_vocabulary(31)
+DMTEducationalFrameworkNodes_DataONE=get_controlled_vocabulary(32)
+DMTEducationalFrameworkNodes_ESIPDataManagementforScientistsShortCourse=get_controlled_vocabulary(33)
+DMTEducationalFrameworkNodes_USGS=get_controlled_vocabulary(34)
+DMTEducationalFrameworks=get_controlled_vocabulary(35)
+DMTEducationalPurpose=get_controlled_vocabulary(36)
+DMTEducationalRoles=get_controlled_vocabulary(37)
+DMTKeywords=get_controlled_vocabulary(38)
+DMTLicenses=get_controlled_vocabulary(39)
+DMTLocatorTypes=get_controlled_vocabulary(40)
+DMTLearningResourceTypes=get_controlled_vocabulary(41)
+DMTMediaType=get_controlled_vocabulary(42)
+DMTOrganizations=get_controlled_vocabulary(43)
+DMTPeople=get_controlled_vocabulary(44)
+DMTSubjectDisciplines=get_controlled_vocabulary(45)
+DMTUsageRights=get_controlled_vocabulary(46)
+DMTEducationalFrameworkNodes_FAIRDataPrinciples=get_controlled_vocabulary(47)
+DMTEducationalFrameworkNodes_Test=get_controlled_vocabulary(48)
+
+#print(DMTKeywords)
+
+
+# get_controlled_vocabulary(16)
 
 print("Fetching all learning resources...")
-Learning_Resources=session.query(Nodes.title,Nodes.nid).filter(Nodes.type=='dmt_learning_resource').all()
+Learning_Resources=session.query(Nodes.title,Nodes.nid,Nodes.uid,Nodes.created).filter(Nodes.type=='dmt_learning_resource').all()
 jsondict=json.loads('{ "learning_resources":[]}')
 for lr in Learning_Resources:
 
@@ -144,8 +204,17 @@ for lr in Learning_Resources:
     j['access_features']=get_value_from_target(AccessFeatures.field_lr_access_features_target_id,AccessFeatures)
     j['language_primary']=get_value(LanguagePrimary.field_lr_language_primary_value,LanguagePrimary)
     j['languages_secondary']=get_values(LanguagesSecondary.field_lr_languages_secondary_value,LanguagesSecondary)
-
-
+    j['ed_framework']=get_values_from_target(EdFramework.field_lr_ed_framework_target_id,EdFramework)
+    j['ed_framework_dataone']=get_values_from_target(EdFrameworkD1.field_lr_ed_framework_node_data1_target_id,EdFrameworkD1)
+    j['ed_framework_fair']=get_values_from_target(EdFrameworkFair.field_framework_node_fair_target_id,EdFrameworkFair)
+    j['target_audience']=get_values_from_target(EdAudience.field_lr_ed_audience_target_id,EdAudience)
+    j['purpose']=get_value_from_target(Purpose.field_lr_ed_purpose_target_id,Purpose)
+    j['completion_time']=get_value_from_target(CompletionTime.field_lr_completion_time_target_id,CompletionTime)
+    j['media_type']=get_value_from_target(MediaType.field_lr_media_type_target_id,MediaType)
+    j['type']=get_value_from_target(LearningResourceType.field_lr_type_target_id,LearningResourceType)
+    j['author']=get_author(lr.uid)
+    j['created']=datetime.datetime.fromtimestamp(lr.created).isoformat()
+    #print(json.dumps(j))
     
     # These are ugly, I will refactor later:
     contributors=[]
@@ -176,11 +245,20 @@ for lr in Learning_Resources:
             contributororgs.append({'name':contributororg,'type':contributortype})
     j['contributor_orgs']=contributororgs
 
-
+    #print(j['ed_framework_dataone'])
     jsondict['learning_resources'].append(j)
 
-    
 
-with open('IMLS.json', 'w') as outfile:
-    json.dump(jsondict, outfile)
+
+for username in usernames:
+    print(username)
+    usertuple=session.query(Users).filter(Users.name==username).first()
+    print(usertuple.__dict__['pass'])
+ 
+ 
+    #     if usertuple is not None:
+    #         print(usertuple._asdict())
+
+# with open('IMLS.json', 'w') as outfile:
+#     json.dump(jsondict, outfile)
 print("Done")
