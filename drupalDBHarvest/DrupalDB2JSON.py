@@ -6,7 +6,89 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 import config
 import datetime
+import requests
+import pysolr
+import os
 
+print("Deleting and creating indexes")
+os.system('sudo su - solr -c "/opt/solr/bin/solr delete -c learningresources"')
+os.system('sudo su - solr -c "/opt/solr/bin/solr create -c learningresources -n data_driven_schema_configs"')
+os.system('sudo su - solr -c "/opt/solr/bin/solr delete -c users"')
+os.system('sudo su - solr -c "/opt/solr/bin/solr create -c users -n data_driven_schema_configs"')
+
+
+
+print("Add Learning Resources fields")
+fields= ['{"add-field": {"name":"title", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"url", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"access_cost", "type":"pfloat", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"submitter_name", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"submitter_email", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"author", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"author_org", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"contact", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"contact_org", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"abstract", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"subject", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"keywords", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"licence", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"usage_rights", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"citation", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"locator", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"publisher", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"version", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"created", "type":"pdate", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"published", "type":"pdate", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"access_features", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"language_primary", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"languages_secondary", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"ed_framework", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"ed_framework_dataone", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"ed_framework_fair", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"target_audience", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"purpose", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"completion_time", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"media_type", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"type", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"contributors", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"contributor_orgs", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"status", "type":"boolean", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"abstract.data", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"abstract.format", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"citation.data", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"locator.data", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"locator.type", "type":"text_general", "multiValued":false, "stored":true}}',]
+for field in fields:
+    j=json.loads(field)
+    # print(j)
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    url="http://localhost:8983/solr/learningresources/schema"
+    r = requests.post(url, data=json.dumps(j), headers=headers)
+    if r.status_code!=200:
+        print(r.json())
+        print(r.text)
+
+
+
+print("Add user fields")
+fields= ['{"add-field": {"name":"hash", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"name", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"email", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"timezone", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"groups", "type":"text_general", "multiValued":true, "stored":true}}',
+ '{"add-field": {"name":"enabled", "type":"boolean", "multiValued":false, "stored":true}}']
+for field in fields:
+    j=json.loads(field)
+    # print(j)
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    url="http://localhost:8983/solr/users/schema"
+    r = requests.post(url, data=json.dumps(j), headers=headers)
+    if r.status_code!=200:
+        print(r.json())
+        print(r.text)
+
+
+userssolr = pysolr.Solr('http://localhost:8983/solr/users/', timeout=10)
 
 usernames=[]
 print("Building DB classes...")
@@ -15,6 +97,7 @@ engine = create_engine(config.connectstring)
 Base.prepare(engine, reflect=True)
 Nodes = Base.classes.node
 Users =Base.classes.users
+UsersRoles = Base.classes.users_roles
 LRUrls =Base.classes.field_data_field_lr_url
 Payment=Base.classes.field_data_field_lr_payment_required
 Submitter=Base.classes.field_data_field_dmt_submitter_name
@@ -57,6 +140,9 @@ MediaType=Base.classes.field_data_field_lr_media_type
 LearningResourceType=Base.classes.field_data_field_lr_type
 print("Creating db session...")
 session = Session(engine)
+
+
+#shared functions
 
 def get_controlled_vocabulary(vid):
     returnarray=[]
@@ -146,7 +232,7 @@ def object_as_dict(obj):
     return {c.key: getattr(obj, c.key)
             for c in inspect(obj).mapper.column_attrs}
 
-
+#TODO implement the controlled vocabularies below.
 
 DMTAccessibilityFeatures=get_controlled_vocabulary(28)
 DMTCompletionTimeframes=get_controlled_vocabulary(29)
@@ -170,18 +256,17 @@ DMTUsageRights=get_controlled_vocabulary(46)
 DMTEducationalFrameworkNodes_FAIRDataPrinciples=get_controlled_vocabulary(47)
 DMTEducationalFrameworkNodes_Test=get_controlled_vocabulary(48)
 
-#print(DMTKeywords)
+#Migrate learning resources from SQL to SOLR
 
 
-# get_controlled_vocabulary(16)
-
-print("Fetching all learning resources...")
-Learning_Resources=session.query(Nodes.title,Nodes.nid,Nodes.uid,Nodes.created).filter(Nodes.type=='dmt_learning_resource').all()
+print("Migrating all learning resources...")
+Learning_Resources=session.query(Nodes.title,Nodes.status,Nodes.nid,Nodes.uid,Nodes.created).filter(Nodes.type=='dmt_learning_resource').all()
 jsondict=json.loads('{ "learning_resources":[]}')
 for lr in Learning_Resources:
 
     j=json.loads('{}')
     j['title']=lr.title
+    j['status']=lr.status
     j['url']=get_value(LRUrls.field_lr_url_url,LRUrls)
     j['access_cost']=get_value(Payment.field_lr_payment_required_value,Payment)
     j['submitter_name']=get_value(Submitter.field_dmt_submitter_name_value,Submitter)
@@ -214,9 +299,8 @@ for lr in Learning_Resources:
     j['type']=get_value_from_target(LearningResourceType.field_lr_type_target_id,LearningResourceType)
     j['author']=get_author(lr.uid)
     j['created']=datetime.datetime.fromtimestamp(lr.created).isoformat()
-    #print(json.dumps(j))
-    
-    # These are ugly, I will refactor later:
+
+
     contributors=[]
     for contributorid in get_values(ContributorPeople.field_lr_contributor_people_value,ContributorPeople):
             contributorpersonid=session.query(ContributorPerson.field_lr_contributor_person_target_id).filter(ContributorPerson.entity_id==contributorid).first()
@@ -245,20 +329,64 @@ for lr in Learning_Resources:
             contributororgs.append({'name':contributororg,'type':contributortype})
     j['contributor_orgs']=contributororgs
 
-    #print(j['ed_framework_dataone'])
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    url="http://localhost:8983/solr/learningresources/update/json/docs"
+    r = requests.post(url, data=json.dumps(j), headers=headers)
+    if r.status_code!=200:
+        print(json.dumps(j))
+        print(r.json())
+        print(r.text)
     jsondict['learning_resources'].append(j)
 
+print("commiting")
+url="http://localhost:8983/solr/learningresources/update?commit=true"
+r = requests.get(url)
+if r.status_code!=200:
+    print(r.json())
+    print(r.text)
 
 
-for username in usernames:
-    print(username)
-    usertuple=session.query(Users).filter(Users.name==username).first()
-    print(usertuple.__dict__['pass'])
- 
- 
-    #     if usertuple is not None:
-    #         print(usertuple._asdict())
+#Get users that are members of groups that we are interested in migrating.
+usertuple=session.query(Users)\
+    .filter(Users.access!=0)\
+    .filter(Users.status==1)\
+    .filter(UsersRoles.uid==Users.uid)\
+    .filter((UsersRoles.rid == 14) | (UsersRoles.rid == 15) |(UsersRoles.rid == 16) |(UsersRoles.rid == 17)  )\
+    .distinct()
 
-# with open('IMLS.json', 'w') as outfile:
-#     json.dump(jsondict, outfile)
+#Create each user and add them to the same groups on the destination.
+for user in usertuple:
+    userobj={}
+    userobj['hash']=user.__dict__['pass']
+    userobj['name']=user.name
+    userobj['email']=user.mail
+    userobj['timezone']=user.timezone
+    userobj['groups']=[]
+    userobj['enabled']=True
+    userrolestuple=session.query(UsersRoles.rid)\
+    .filter(Users.uid==user.uid)\
+    .filter(Users.access!=0)\
+    .filter(Users.status==1)\
+    .filter(UsersRoles.uid==Users.uid)\
+    .filter((UsersRoles.rid == 14) | (UsersRoles.rid == 15) |(UsersRoles.rid == 16) |(UsersRoles.rid == 17)  )\
+    .distinct()
+    for role in userrolestuple:
+        for roleID in role:
+            
+                if roleID==14:  
+                    userobj['groups'].append('admin')
+                if roleID==15:  
+                    userobj['groups'].append('editor')
+                if roleID==16:  
+                    userobj['groups'].append('reviewer')
+                if roleID==17:  
+                    userobj['groups'].append('submitter')
+            
+    userjson=json.loads(json.dumps(userobj))
+    userssolr.add([userjson])
+
+#Commit these actions.
+r=requests.get("http://localhost:8983/solr/users/update?commit=true")
+print(r.text)   
+
 print("Done")
