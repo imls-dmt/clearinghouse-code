@@ -15,7 +15,8 @@ os.system('sudo su - solr -c "/opt/solr/bin/solr delete -c learningresources"')
 os.system('sudo su - solr -c "/opt/solr/bin/solr create -c learningresources -n data_driven_schema_configs"')
 os.system('sudo su - solr -c "/opt/solr/bin/solr delete -c users"')
 os.system('sudo su - solr -c "/opt/solr/bin/solr create -c users -n data_driven_schema_configs"')
-
+os.system('sudo su - solr -c "/opt/solr/bin/solr delete -c taxonomies"')
+os.system('sudo su - solr -c "/opt/solr/bin/solr create -c taxonomies -n data_driven_schema_configs"')
 
 
 print("Add Learning Resources fields")
@@ -72,7 +73,7 @@ for field in fields:
 
 print("Add user fields")
 fields= ['{"add-field": {"name":"hash", "type":"text_general", "multiValued":false, "stored":true}}',
- '{"add-field": {"name":"name", "type":"text_general", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"name", "type":"string", "multiValued":false, "stored":true}}',
  '{"add-field": {"name":"email", "type":"text_general", "multiValued":false, "stored":true}}',
  '{"add-field": {"name":"timezone", "type":"text_general", "multiValued":false, "stored":true}}',
  '{"add-field": {"name":"groups", "type":"text_general", "multiValued":true, "stored":true}}',
@@ -87,6 +88,19 @@ for field in fields:
         print(r.json())
         print(r.text)
 
+
+print("Add taxonomies fields")
+fields= ['{"add-field": {"name":"name", "type":"string", "multiValued":false, "stored":true}}',
+ '{"add-field": {"name":"values", "type":"text_general", "multiValued":true, "stored":true}}']
+for field in fields:
+    j=json.loads(field)
+    # print(j)
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    url="http://localhost:8983/solr/taxonomies/schema"
+    r = requests.post(url, data=json.dumps(j), headers=headers)
+    if r.status_code!=200:
+        print(r.json())
+        print(r.text)
 
 userssolr = pysolr.Solr('http://localhost:8983/solr/users/', timeout=10)
 
@@ -142,7 +156,7 @@ print("Creating db session...")
 session = Session(engine)
 
 
-#shared functions
+
 
 def get_controlled_vocabulary(vid):
     returnarray=[]
@@ -234,31 +248,61 @@ def object_as_dict(obj):
 
 #TODO implement the controlled vocabularies below.
 
+def insert_taxonomies(array,name):
+    taxonomiessolr = pysolr.Solr('http://localhost:8983/solr/taxonomies/', timeout=10)
+    j=json.loads('{"name":"'+name+'"}')
+    j['values']=array
+    taxonomiessolr.add([j])
+    r=requests.get("http://localhost:8983/solr/taxonomies/update?commit=true")
+    if r.status_code!=200:
+        print(r.json())
+        print(r.text)
+
 DMTAccessibilityFeatures=get_controlled_vocabulary(28)
+insert_taxonomies(DMTAccessibilityFeatures,"Accessibility Features")
 DMTCompletionTimeframes=get_controlled_vocabulary(29)
+insert_taxonomies(DMTCompletionTimeframes,"Completion Timeframes")
 DMTContributorTypes=get_controlled_vocabulary(30)
+insert_taxonomies(DMTContributorTypes,"Contributor Types")
 DMTEducationalAudiences=get_controlled_vocabulary(31)
+insert_taxonomies(DMTEducationalAudiences,"Educational Audiences")
 DMTEducationalFrameworkNodes_DataONE=get_controlled_vocabulary(32)
+insert_taxonomies(DMTEducationalFrameworkNodes_DataONE,"Educational Framework Nodes DataONE")
 DMTEducationalFrameworkNodes_ESIPDataManagementforScientistsShortCourse=get_controlled_vocabulary(33)
+insert_taxonomies(DMTEducationalFrameworkNodes_ESIPDataManagementforScientistsShortCourse,"Educational Framework Nodes ESIP Data Management for Scientists Short Course")
 DMTEducationalFrameworkNodes_USGS=get_controlled_vocabulary(34)
+insert_taxonomies(DMTEducationalFrameworkNodes_USGS,"Educational Framework Nodes USGS")
 DMTEducationalFrameworks=get_controlled_vocabulary(35)
+insert_taxonomies(DMTEducationalFrameworks,"Educational Frameworks")
 DMTEducationalPurpose=get_controlled_vocabulary(36)
+insert_taxonomies(DMTEducationalPurpose,"Educational Purpose")
 DMTEducationalRoles=get_controlled_vocabulary(37)
+insert_taxonomies(DMTEducationalRoles,"Educational Roles")
 DMTKeywords=get_controlled_vocabulary(38)
+insert_taxonomies(DMTKeywords,"Keywords")
 DMTLicenses=get_controlled_vocabulary(39)
+insert_taxonomies(DMTLicenses,"Licenses")
 DMTLocatorTypes=get_controlled_vocabulary(40)
+insert_taxonomies(DMTLocatorTypes,"Locator Types")
 DMTLearningResourceTypes=get_controlled_vocabulary(41)
+insert_taxonomies(DMTLearningResourceTypes,"Learning Resource Types")
 DMTMediaType=get_controlled_vocabulary(42)
+insert_taxonomies(DMTMediaType,"Media Type")
 DMTOrganizations=get_controlled_vocabulary(43)
+insert_taxonomies(DMTOrganizations,"Organizations")
 DMTPeople=get_controlled_vocabulary(44)
+insert_taxonomies(DMTPeople,"People")
 DMTSubjectDisciplines=get_controlled_vocabulary(45)
+insert_taxonomies(DMTSubjectDisciplines,"Subject Disciplines")
 DMTUsageRights=get_controlled_vocabulary(46)
+insert_taxonomies(DMTUsageRights,"Usage Rights")
 DMTEducationalFrameworkNodes_FAIRDataPrinciples=get_controlled_vocabulary(47)
+insert_taxonomies(DMTEducationalFrameworkNodes_FAIRDataPrinciples,"Educational Framework Nodes FAIR Data Principles")
 DMTEducationalFrameworkNodes_Test=get_controlled_vocabulary(48)
+insert_taxonomies(DMTEducationalFrameworkNodes_Test,"Educational Framework Nodes Test")
+#print(DMTAccessibilityFeatures)
 
 #Migrate learning resources from SQL to SOLR
-
-
 print("Migrating all learning resources...")
 Learning_Resources=session.query(Nodes.title,Nodes.status,Nodes.nid,Nodes.uid,Nodes.created).filter(Nodes.type=='dmt_learning_resource').all()
 jsondict=json.loads('{ "learning_resources":[]}')
@@ -345,7 +389,6 @@ if r.status_code!=200:
     print(r.json())
     print(r.text)
 
-
 #Get users that are members of groups that we are interested in migrating.
 usertuple=session.query(Users)\
     .filter(Users.access!=0)\
@@ -353,7 +396,6 @@ usertuple=session.query(Users)\
     .filter(UsersRoles.uid==Users.uid)\
     .filter((UsersRoles.rid == 14) | (UsersRoles.rid == 15) |(UsersRoles.rid == 16) |(UsersRoles.rid == 17)  )\
     .distinct()
-
 #Create each user and add them to the same groups on the destination.
 for user in usertuple:
     userobj={}
@@ -384,7 +426,6 @@ for user in usertuple:
             
     userjson=json.loads(json.dumps(userobj))
     userssolr.add([userjson])
-
 #Commit these actions.
 r=requests.get("http://localhost:8983/solr/users/update?commit=true")
 print(r.text)   
